@@ -48,7 +48,11 @@ class Server:
     # Process a message from a connected client
     def process_client_message(self, client):
         # Message from a client
-        data = client.socket.recv(1024)
+        try:
+            data = client.socket.recv(1024)
+        except:
+            data = None
+
         if data:
             msg = data.rstrip()     # Remove any line returns
             
@@ -151,7 +155,10 @@ class Client:
 
      # Send message to Client
     def send(self, data):
-        self.socket.send(data)
+        try:
+            self.socket.send(data)
+        except:
+            print "Warning: Trying to send on closed socket!"
 
 
 

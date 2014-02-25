@@ -18,6 +18,8 @@ When working with network connections, we can draw some parallels to what you've
 
 ##Writing a Client
 
+Before starting, create a fork of this repository and clone it to your machine.
+
 Previously, to read from a file, we might have written something like this:
 
 	# Open a File
@@ -37,13 +39,13 @@ To read from a socket connection, we'll first have to import the socket module (
 	my_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	my_socket.connect(("localhost", 5555))
 	
-Create a new file and run the code above.  However, when we run, we'll get an error:
+Create a new file and call it "client.py" and add the code above.  However, when we run, we'll get an error:
 
 	socket.error: [Errno 111] Connection refused
 
 That's because we've told our application to connect to a server listening on port 5555 on the local machine ("localhost" always points to the machine you're on) and there's nothing currently listening on the port.  We need to run a server!
 
-Clone this repository and in another terminal window run the chatserver.py application.
+In another terminal window (you'll want to leave two windows open for this exercise) run the chatserver.py application.
 
 	$ python chatserver.py
 
@@ -51,7 +53,7 @@ You should see the following message:
 
 	Listening on :5555
 
-Leave that running and now run the connection code again from another terminal window.  This time the program should just exit without an error.  On the server window you should see that the server detected an incomming connection and then immediatly disconnected:
+Leave that running and now run the connection code again from the other terminal window.  This time the program should just exit without an error.  On the server window you should see that the server detected an incomming connection and then immediatly disconnected:
 
 	Incoming Connection
 	client disconnecting
@@ -89,7 +91,7 @@ To send data to the server, there are two methods of the socket class we could u
 Now alter your program so it does the following:
 
 * Receive 1024 bytes from the socket and displays them
-* Get a line of input from the user (keyboard) using sys.stdin
+* Get a line of input from the user (keyboard) using sys.stdin.readline()
 * Send that input to the server socket
 * Receive another 1024 bytes from the socket and display
 
@@ -104,7 +106,7 @@ On the server window you have open, you should see
 
 ### Let's Chat
 
-What we've written so far works...kinda...  It at least sends some data back and forth.  We could maybe put the code we've written in a loop to keep exchanging data back and forth, but that still wouldn't be ideal... we'd only see new messages from the server after we send a message (and we wouldn't be able to send a message until we receive a message).  Not ideal.
+What we've written so far works...kinda...  It at least sends some data back and forth.  We could maybe put the code we've written in a loop to keep exchanging data back and forth, but that might not be the greatest experiance... we'd only see new messages from the server after we send a message (and we wouldn't be able to send a message until we receive a message).  Not ideal.
 
 So we know how to wait for data from one input source (we've already done that), but how do we wait for data that could come from two different places (our server socket and the keyboard)?  How do we know which one is ready and needs to be handled?
 
